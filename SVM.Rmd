@@ -1,0 +1,73 @@
+---
+output:
+  rmarkdown: github_document
+  html_document: default
+  pdf_document: default
+---
+
+# Support Vector Machine (SVM)
+Have you ever asked yourself how SVM works? I have done the following coding to show that how SVM is sensitive to the values close to the boundary.
+
+```{r, echo=FALSE}
+library(e1071)
+###
+
+set.seed(1)
+x <- matrix( c(rnorm(20)  ,rnorm(20,mean=50)) , ncol=2 , byrow=T);
+y <- c(rep(-1,10), rep(1,10))
+dat <- data.frame(x=x, y=as.factor(y))
+
+svm.fit <- svm(y ~., data=dat, kernel='linear', cost=10, scale=T)
+plot(x, col=(3-y))
+points(dat[svm.fit$index,c(1,2)],col="blue",cex=2)
+
+plot(svm.fit,dat)
+
+####
+set.seed(1)
+x <- matrix( c(rnorm(16),23,24,25,26  ,rnorm(16,mean=50), 27,27,28,28) , ncol=2 , byrow=T);
+y <- c(rep(-1,10), rep(1,10))
+
+dat <- data.frame(x=x, y=as.factor(y))
+svm.fit <- svm(y ~., data=dat, kernel='linear', cost=1, scale=FALSE)
+
+plot(x, col=(3-y))
+plot(svm.fit, dat)
+
+##
+set.seed(1)
+x <- matrix( c(rnorm(16),23,24,25,24  ,rnorm(16,mean=50), 27,27,28,27) , ncol=2 , byrow=T);
+y <- c(rep(-1,10), rep(1,10))
+
+dat <- data.frame(x=x, y=as.factor(y))
+svm.fit <- svm(y ~., data=dat, kernel='linear', cost=1, scale=FALSE)
+
+plot(x, col=(3-y))
+plot(svm.fit, dat)
+
+###
+
+set.seed(1)
+x <- matrix( c(rnorm(16),4,5,5,6  ,rnorm(16,mean=20), 6,7,6,8) , ncol=2 , byrow=T);
+y <- c(rep(-1,10), rep(1,10))
+dat <- data.frame(x=x, y=as.factor(y))
+svm.fit <- svm(y ~., data=dat, kernel='linear', cost=100, scale=FALSE)
+
+plot(x, col=(3-y))
+plot(svm.fit, dat)
+
+
+
+###
+set.seed(1)
+x <- matrix( c(rnorm(18), 5,5  ,rnorm(18,mean=50),6,6) , ncol=2 , byrow=T);
+y <- c(rep(-1,10), rep(1,10))
+
+dat <- data.frame(x=x, y=as.factor(y))
+svm.fit <- svm(y ~., data=dat, kernel='linear', cost=10, scale=FALSE)
+
+plot(x, col=(3-y))
+plot(svm.fit, dat)
+
+```
+
